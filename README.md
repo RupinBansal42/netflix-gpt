@@ -2,6 +2,12 @@
 
 - Create-React app "netflix-gpt"
 - Configured Tailwind Css from framework-guide [based on Webpack]
+- Header
+-Login Form
+- SignUp Form based on useState
+- Form Validation
+
+
 
 # Features
 -Login/Signup Page
@@ -18,5 +24,8 @@
 - Netflix GPT
     -Search bar
     -Movies Suggestion
+
+
+# 2 commit is Login Page
 
 
