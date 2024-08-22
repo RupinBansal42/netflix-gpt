@@ -3,9 +3,14 @@
 - Create-React app "netflix-gpt"
 - Configured Tailwind Css from framework-guide [based on Webpack]
 - Header
--Login Form
+- Login Form
+- Routing Form
 - SignUp Form based on useState
 - Form Validation
+- useRef Hook
+- Create Signup User Account 
+- Firebase Setup
+-Deploy App Production
 
 
 
