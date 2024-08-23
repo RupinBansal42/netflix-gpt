@@ -12,6 +12,8 @@
 - Firebase Setup
 - Deploy App Production
 - Created Redux Store with user SLice
+- Fetch movies from TMDB
+- Signup User Browse URL Address[Redirect if user not logged in Redirect to "/"  or vice-versa]
 
 
 
