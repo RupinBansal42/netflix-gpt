@@ -4,8 +4,11 @@ import { checkValidData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isSigninForm, setIsSigninForm] = useState(true);
@@ -13,6 +16,7 @@ const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
+  const navigate = useNavigate();
 
   const toggleSigninForm = () => {
     setIsSigninForm(!isSigninForm);
@@ -24,10 +28,7 @@ const Login = () => {
       password.current.value,
       email.current.value
     );
-    const message = checkValidData(
-      email.current.value,
-      password.current.value,
-    );
+    const message = checkValidData(email.current.value, password.current.value);
     setErrorMessage(message);
     if (message) return;
     console.log("isSign in", isSigninForm);
@@ -41,11 +42,30 @@ const Login = () => {
         password.current.value
       )
         .then((userCredential) => {
-          // Signed up
-
           const user = userCredential.user;
-          console.log("User", user);
-          // ...
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL:
+              "https://media.licdn.com/dms/image/v2/C5103AQHYQB8F8H4_1g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1527935097205?e=1729728000&v=beta&t=4rJmCUbwyFaNYc67OYbLddMf2yMytSr-sNZ_QUqJ9no",
+          })
+            .then(() => {
+              // Need to dispatch actoin and update profile also
+              // Profile updated!
+              const {uid, displayName, photoURL, email} = auth.currentUser;
+              dispatchEvent(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              navigate("/browse");
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -55,7 +75,12 @@ const Login = () => {
         });
     } else {
       // Signin Logic
-      console.log("signInWithEmailAndPassword", auth, email.current.value, password.current.value);
+      console.log(
+        "signInWithEmailAndPassword",
+        auth,
+        email.current.value,
+        password.current.value
+      );
       signInWithEmailAndPassword(
         auth,
         email.current.value,
@@ -64,7 +89,8 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log("USERS",user)
+          console.log("USERS", user);
+          navigate("/browse");
           // ...
         })
         .catch((error) => {

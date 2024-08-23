@@ -10,7 +10,8 @@
 - useRef Hook
 - Create Signup User Account 
 - Firebase Setup
--Deploy App Production
+- Deploy App Production
+- Created Redux Store with user SLice
 
 
 
